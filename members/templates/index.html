@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat With Bot</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .chat {
+            background-color: bisque;
+            box-sizing: border-box;
+            padding: 1px;
+        }
+
+        .msg {
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px 30px;
+            width: fit-content;
+            box-sizing: border-box;
+        }
+
+        .botmsg {
+            background-color: aquamarine;
+            border-bottom-left-radius: 0;
+        }
+
+        .ownermsg {
+            background-color: cornflowerblue;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .form {
+            margin: 40px 30px 10px 30px;
+        }
+
+        .form #post-form {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .form input[type="text"] {
+            border: 0;
+            outline: 0;
+            padding: 10px 20px;
+            border-radius: 20px 20px 0 0;
+            width: 60%;
+        }
+
+        .form input[type="submit"] {
+            border: 0;
+            outline: 0;
+            padding: 10px 20px;
+            border-radius: 20px 20px 0 0;
+            width: 20%;
+        }
+
+        .dot{
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: azure;
+            animation: updown 0.5s ease-in-out var(--abc) infinite;
+        }
+
+        @keyframes updown {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(5px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="chat">
+        <div id="display">
+            
+            <!-- <div class="botmsg msg">Hiiii.</div>
+            <div class="ownermsg msg">How Are You?</div>
+            {% if answer %}
+            <div class="botmsg msg">{{answer}}</div>
+            {% endif %} -->
+        </div>
+        <div class="form">
+            <form id="post-form">
+                {% csrf_token %}
+                <input type="text" name="message" id="message" width="100px" />
+                <input type="submit" value="Send">
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        function caller(){
+            setTimeout(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "/m/getMessages",
+                    success: function (response) {
+                        // console.log(response);
+                        $("#display").empty();
+                        for (var key in response.messages) {
+                            resp = response.messages[key]
+                            var temp = "";
+                            if (resp[0] == "user") {
+                                temp = temp + "<div class='ownermsg msg'>";
+                            }
+                            else {
+                                temp = temp + "<div class='botmsg msg'>";
+                            }
+                            temp = temp + resp[1] + "</div>";
+
+                            // var temp="<div class='container darker'><b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+                            $("#display").append(temp);
+                        }
+                    },
+                    error: function (response) {
+                        alert('An error occured')
+                    }
+                });
+            }, 200);
+        }
+        caller();
+    </script>
+
+    <script type="text/javascript">
+        $(document).on('submit', '#post-form', function (e) {
+            e.preventDefault();
+            var botMSG ='<div class="botmsg msg"><span class="dot" style="--abc: 0s"></span><span class="dot" style="--abc: 0.15s"></span><span class="dot" style="--abc: 0.25s"></span></div>'
+            var humMSG = "<div class='ownermsg msg'>" + $('#message').val() + "</div>";
+            $("#display").append(humMSG);
+            $("#display").append(botMSG);
+            $.ajax({
+                type: 'POST',
+                url: '/m/send',
+                data: {
+                    message: $('#message').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function (data) {
+                    // alert(data);
+                    caller();
+                }
+            });
+            document.getElementById('message').value = ''
+        });
+    </script>
+    
+</body>
+
+</html>

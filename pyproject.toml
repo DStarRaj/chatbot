@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.8"
 django = "^4.1.4"
 chatterbot = "1.0.2"
+pytz = "^2022.7"
 
 
 [build-system]

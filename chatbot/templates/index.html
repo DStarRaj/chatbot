@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat With Bot</title>
+    <style>
+        body{
+            margin: 0;
+        }
+
+        .chat{
+            background-color: bisque;
+            box-sizing: border-box;
+            padding: 1px;
+        }
+
+        .msg{
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 10px 30px;
+            width: fit-content;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .botmsg{
+            background-color: aquamarine;
+            border-bottom-left-radius: 0;
+        }
+
+        .ownermsg{
+            background-color: cornflowerblue;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat">
+        <div class="botmsg msg">Hiiii.</div>
+        <div class="ownermsg msg">How Are You?</div>
+        {% if answer %}
+            <div class="botmsg msg">{{answer}}</div>
+        {% endif %}
+    </div>
+</body>
+</html>

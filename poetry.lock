@@ -345,6 +345,18 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "pytz"
+version = "2022.7"
+description = "World timezone definitions, modern and historical"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pytz-2022.7-py2.py3-none-any.whl", hash = "sha256:93007def75ae22f7cd991c84e02d434876818661f8df9ad5df9e950ff4e52cfd"},
+    {file = "pytz-2022.7.tar.gz", hash = "sha256:7ccfae7b4b2c067464a6733c6261673fdb8fd1be905460396b97a073e9fa683a"},
+]
+
+[[package]]
 name = "pyyaml"
 version = "3.13"
 description = "YAML parser and emitter for Python"
@@ -545,4 +557,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "3a6c1bfe632674bdac2d7eceece2f461fbe66a56677f7a07a745653b00ef0abd"
+content-hash = "287866f4c0caa3b479b5b5d8493286a7660b92d5a9f3fe3ef1c250a993463924"
